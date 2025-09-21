@@ -68,12 +68,6 @@ enum custom_keycodes {
     EH_RSRV5,
     EH_RSRV6,
     EH_RSRV7,
-
-    // Macros
-    RBT_DWM = SAFE_RANGE,
-    RBT,
-    DEL_WRD,
-    SLANG,
 };
 
 // 1st layer on the cycle
