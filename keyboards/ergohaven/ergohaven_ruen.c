@@ -41,19 +41,25 @@ void set_lang(uint8_t lang) {
         case TG_M0:
             if (cur_lang == lang) return;
             if (mods != 0) del_mods(mods);
+#ifdef DYNAMIC_TAPPING_TERM_ENABLE
             dynamic_keymap_macro_send(QK_MACRO_0 - QK_MACRO);
+#endif
             if (mods != 0) add_mods(mods);
             break;
         case TG_M1M2:
             if (lang == LANG_EN) {
                 if (!should_revert_ru) {
                     if (mods != 0) del_mods(mods);
+#ifdef DYNAMIC_TAPPING_TERM_ENABLE
                     dynamic_keymap_macro_send(QK_MACRO_1 - QK_MACRO);
+#endif
                     if (mods != 0) add_mods(mods);
                 }
             } else {
                 if (mods != 0) del_mods(mods);
+#ifdef DYNAMIC_TAPPING_TERM_ENABLE
                 dynamic_keymap_macro_send(QK_MACRO_2 - QK_MACRO);
+#endif
                 if (mods != 0) add_mods(mods);
             }
             break;
@@ -244,7 +250,9 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         case LG_SCLN: // ;
-            tap_code16(cur_lang == LANG_EN ? KC_SCLN : mac_layout ? S(KC_8) : S(KC_4));
+            bool shift = (get_mods() | get_oneshot_mods() | get_weak_mods()) & MOD_MASK_SHIFT;
+            uint16_t cur_code = shift ? S(KC_6) : S(KC_4);
+            tap_code16(cur_lang == LANG_EN ? KC_SCLN : mac_layout ? S(KC_8) : cur_code);
             return false;
 
         case LG_COLON: // :
